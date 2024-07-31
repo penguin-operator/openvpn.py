@@ -1,31 +1,33 @@
 #!/usr/bin/env python3.12
 import sys
 import asyncio
-from util.cli import argparse
-from apis import API
+import clean
+from cli import argparse
+from api import VPNApi
 
 def cli_help():
-    print("Usage: openvpn.py get <api>_name [<api_name>...]")
     print("Available APIs:")
-    for api in API.apis:
+    for api in VPNApi.apis:
         print(f"    {api}")
 
 async def main(*args, **kv):
-    match args:
-        case ["get", *apis]:
+    match args, kv:
+        case ["get", *apis], {**kv}:
             for api in apis:
-                if api not in API.apis:
+                if api not in VPNApi.apis:
                     print(f"API {api} not found")
                     cli_help()
                     exit(1)
-                api = API[api]()
+                api = VPNApi[api](**kv)
                 for server in await api.get_servers():
                     print(server)
-        case ["check", *paths]:
+        case ["check", *paths], {}:
             ...
         case [*_] | ["help"]:
+            print("Usage: openvpn.py get <api>_name [<api_name>...]")
             cli_help()
 
 if __name__ == "__main__":
     args, kv = argparse(*sys.argv[1:])
     asyncio.run(main(*args, **kv))
+    clean.clean()

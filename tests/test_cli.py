@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(".")
 
-import util.cli as cli
+import cli as cli
 
 class TestCli(unittest.TestCase):
     def test_matchtype(self):
@@ -17,11 +17,11 @@ class TestCli(unittest.TestCase):
         self.assertEqual(cli.argparse(), ([], {}))
         self.assertEqual(cli.argparse("check"), (["check"], {}))
         self.assertEqual(cli.argparse("install", "package"), (["install", "package"], {}))
-        self.assertEqual(cli.argparse("install", "-o=foo"), (["install"], {"-o": "foo"}))
-        self.assertEqual(cli.argparse("install", "-o", "foo"), (["install"], {"-o": "foo"}))
-        self.assertEqual(cli.argparse("install", "-s"), (["install"], {"-s": True}))
-        self.assertEqual(cli.argparse("build", "-j", "11"), (["build"], {"-j": 11}))
-        self.assertEqual(cli.argparse("top", "-d=0.1"), (["top"], {"-d": 0.1}))
+        self.assertEqual(cli.argparse("install", "-o=foo"), (["install"], {"o": "foo"}))
+        self.assertEqual(cli.argparse("install", "-o", "foo"), (["install"], {"o": "foo"}))
+        self.assertEqual(cli.argparse("install", "-s"), (["install"], {"s": True}))
+        self.assertEqual(cli.argparse("build", "-j", "11"), (["build"], {"j": 11}))
+        self.assertEqual(cli.argparse("top", "-d=0.1"), (["top"], {"d": 0.1}))
 
 if __name__ == "__main__":
     unittest.main()

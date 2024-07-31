@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(".")
 
-from apis import API, Server, IpSpeed
+from api import API, Server, IpSpeed
 
 class APITest(unittest.TestCase):
     def test_server(self):
