@@ -1,7 +1,7 @@
-from typing import Any
+from typing import Any, Self
 
 class GeoAPI:
-    __apis__: dict[str, Any] = {}
+    __apis__: dict[str, type[Self]] = {}
 
     def __class_getitem__(cls, api_name: str) -> Any:
         return cls.__apis__[api_name]
@@ -15,10 +15,10 @@ class GeoAPI:
     async def __call__(self, ip: str) -> tuple[str, str, str]:
         if ip in self.__cache__:
             return self.__cache__[ip]
-        self.__cache__[ip] = await self.__get__(ip)
+        self.__cache__[ip] = await self.__seek__(ip)
         return self.__cache__[ip]
 
-    async def __get__(self, ip: str) -> tuple[str, str, str]:
+    async def __seek__(self, ip: str) -> tuple[str, str, str]:
         raise NotImplementedError
 
     @classmethod

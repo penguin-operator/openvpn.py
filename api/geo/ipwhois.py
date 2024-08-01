@@ -2,7 +2,7 @@ import httpx
 from .geoapi import GeoAPI
 
 class IpWhois(GeoAPI):
-    async def __get__(self, ip: str) -> tuple[str, str, str]:
+    async def __seek__(self, ip: str) -> tuple[str, str, str]:
         async with httpx.AsyncClient() as client:
             data = await client.get(f"https://ipwho.is/{ip}")
             data = data.json()
